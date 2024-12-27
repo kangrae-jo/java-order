@@ -6,18 +6,23 @@ import java.util.List;
 
 public class OrderMaker {
 
-    public OrderMaker(){
-    }
+    public List<Order> toOrders(String input) throws IllegalArgumentException {
+        OrderValidator validator = new OrderValidator();
+        List<String> inputs = splitInput(input);
 
-    public List<String> toOrders(String input) {
-        return splitInput(input);
+        return inputs.stream()
+                .map(temp -> {
+                    Order order = new Order(temp);
+                    validator.validate(order);
+                    return order;
+                })
+                .toList();
     }
 
     private List<String> splitInput(String input) {
-        String regex = "\\s*,\\s*";
-        String[] orders = input.split(regex);
+        String[] inputs = input.split(", ");
 
-        return new ArrayList<>(Arrays.asList(orders));
+        return new ArrayList<>(Arrays.asList(inputs));
     }
 
 }

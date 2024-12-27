@@ -6,16 +6,15 @@ public class InputView {
 
     public String readInput() {
         System.out.println("주문하실 메뉴와 수량을 입력해 주세요. ex) 피자(2개), 감자튀김(1개), 콜라(3개)");
-        String input = "";
+        String input;
         while (true) {
-            try {
-                if (validateInput(input)) {
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
             input = Console.readLine();
+            try {
+                validateInput(input);
+                break;
+            } catch (Exception e) {
+                System.out.println("[ERROR]: " + e.getMessage());
+            }
         }
         return input;
     }
@@ -25,7 +24,7 @@ public class InputView {
         if (input.matches(regex)) {
             return true;
         } else {
-            throw new IllegalArgumentException("[ERROR]: 주문 형식이 잘못되었습니다.");
+            throw new IllegalArgumentException("주문 형식이 잘못되었습니다.");
         }
     }
 }
