@@ -8,15 +8,13 @@ public class OrderMaker {
 
     public List<Order> toOrders(String input) throws IllegalArgumentException {
         OrderValidator validator = new OrderValidator();
-        List<String> inputs = splitInput(input);
 
-        return inputs.stream()
-                .map(temp -> {
-                    Order order = new Order(temp);
-                    validator.validate(order);
-                    return order;
-                })
+        List<Order> orders = splitInput(input).stream()
+                .map(Order::new)
                 .toList();
+
+        validator.ordersCheck(orders);
+        return orders;
     }
 
     private List<String> splitInput(String input) {
