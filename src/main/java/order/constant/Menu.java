@@ -59,7 +59,7 @@ public enum Menu {
                 .anyMatch(Menu::isDrink);
     }
 
-    public static Menu findByName(String name) {
+    public static Menu getMenuByName(String name) {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.name.equals(name))
                 .findFirst()

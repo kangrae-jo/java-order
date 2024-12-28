@@ -19,7 +19,7 @@ public class Store {
     public void run() {
         List<Order> orders = getOrders();
         long service = countMainMenu(orders);
-        // int totalPrice = getTotalPrice(orders);
+        int totalPrice = getTotalPrice(orders);
         // printBills(orders, service, totalPrice);
     }
 
@@ -43,6 +43,12 @@ public class Store {
         return orders.stream()
                 .filter(Order::isMain)
                 .mapToLong(Order::getQuantity)
+                .sum();
+    }
+
+    private int getTotalPrice(List<Order> orders) {
+        return orders.stream()
+                .mapToInt(Order::getAmount)
                 .sum();
     }
 

@@ -32,7 +32,11 @@ public class Order {
     }
 
     public boolean isMain() {
-        return Menu.findByName(name).isMain();
+        return Menu.getMenuByName(name).isMain();
+    }
+
+    public int getAmount() {
+        return Menu.getPriceByName(name) * quantity;
     }
 
     public String getName() {
