@@ -16,7 +16,14 @@ public class Store {
         this.outputView = outputView;
     }
 
-    public List<Order> getOrders() {
+    public void run() {
+        List<Order> orders = getOrders();
+        long service = countMainMenu(orders);
+        // int totalPrice = getTotalPrice(orders);
+        // printBills(orders, service, totalPrice);
+    }
+
+    private List<Order> getOrders() {
         OrderMaker orderMaker = new OrderMaker();
         List<Order> orders;
         while (true) {
@@ -31,5 +38,19 @@ public class Store {
 
         return orders;
     }
+
+    private long countMainMenu(List<Order> orders) {
+        return orders.stream()
+                .filter(Order::isMain)
+                .mapToLong(Order::getQuantity)
+                .sum();
+    }
+
+    private void printBills(List<Order> orders, int service, int totalPrice) {
+        outputView.printOrderList(orders);
+        outputView.printService(service);
+        outputView.printTotalPrice(totalPrice);
+    }
+
 
 }
