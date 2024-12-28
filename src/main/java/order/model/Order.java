@@ -39,6 +39,11 @@ public class Order {
         return Menu.getPriceByName(name) * quantity;
     }
 
+    @Override
+    public String toString() {
+        return name + "(" + quantity + "개): " + getAmount() + "원";
+    }
+
     public String getName() {
         return name;
     }

@@ -18,9 +18,9 @@ public class Store {
 
     public void run() {
         List<Order> orders = getOrders();
-        long service = countMainMenu(orders);
+        int service = countMainMenu(orders);
         int totalPrice = getTotalPrice(orders);
-        // printBills(orders, service, totalPrice);
+        printBills(orders, service, totalPrice);
     }
 
     private List<Order> getOrders() {
@@ -39,8 +39,8 @@ public class Store {
         return orders;
     }
 
-    private long countMainMenu(List<Order> orders) {
-        return orders.stream()
+    private int countMainMenu(List<Order> orders) {
+        return (int) orders.stream()
                 .filter(Order::isMain)
                 .mapToLong(Order::getQuantity)
                 .sum();
