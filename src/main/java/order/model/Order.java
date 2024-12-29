@@ -6,8 +6,8 @@ import order.constant.Menu;
 
 public class Order {
 
-    private static final String MENU_AND_QUANTITY_REGEX = "^(\\S+)\\((\\d+)개\\)$";
-
+    private static final String MENU_AND_QUANTITY_REGEX = "([가-힣\\s]+)\\((\\d+)개\\)";
+    
     private final String name;
     private final int quantity;
 

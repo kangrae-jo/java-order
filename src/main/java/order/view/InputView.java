@@ -20,7 +20,7 @@ public class InputView {
     }
 
     private boolean validateInput(String input) throws IllegalArgumentException {
-        String regex = "^(\\S+\\(\\d+개\\))(, \\S+\\(\\d+개\\))*$";
+        String regex = "^([가-힣\\s]+\\(\\d+개\\))(, [가-힣\\s]+\\(\\d+개\\))*$";
         if (input.matches(regex)) {
             return true;
         } else {
