@@ -20,7 +20,9 @@ public class Store {
         List<Order> orders = getOrders();
         int service = countMainMenu(orders);
         int totalPrice = getTotalPrice(orders);
-        printBills(orders, service, totalPrice);
+        int deliveryPrice = getDeliveryPrice(totalPrice);
+
+        printBills(orders, deliveryPrice, service, totalPrice);
     }
 
     private List<Order> getOrders() {
@@ -48,14 +50,24 @@ public class Store {
 
     private int getTotalPrice(List<Order> orders) {
         return orders.stream()
-                .mapToInt(Order::getAmount)
+                .mapToInt(Order::getPrice)
                 .sum();
     }
 
-    private void printBills(List<Order> orders, int service, int totalPrice) {
-        outputView.printOrderList(orders);
+    private int getDeliveryPrice(int totalPrice) {
+        if (totalPrice < 50_000) {
+            return 2_000;
+        }
+        if (totalPrice < 100_000) {
+            return 1_000;
+        }
+        return 0;
+    }
+
+    private void printBills(List<Order> orders, int deliveryPrice, int service, int totalPrice) {
+        outputView.printOrderList(orders, totalPrice, deliveryPrice);
         outputView.printService(service);
-        outputView.printTotalPrice(totalPrice);
+        outputView.printTotalPrice(totalPrice + deliveryPrice);
     }
 
 

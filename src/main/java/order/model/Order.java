@@ -35,13 +35,13 @@ public class Order {
         return Menu.getMenuByName(name).isMain();
     }
 
-    public int getAmount() {
+    public int getPrice() {
         return Menu.getPriceByName(name) * quantity;
     }
 
     @Override
     public String toString() {
-        return name + "(" + quantity + "개): " + getAmount() + "원";
+        return String.format("%s(%d개): %,d원", name, quantity, getPrice());
     }
 
     public String getName() {
