@@ -1,8 +1,10 @@
 package order.controller;
 
 import java.util.List;
+import order.model.DeliveryFeeCalculator;
 import order.model.Order;
 import order.model.OrderMaker;
+import order.model.Orders;
 import order.view.InputView;
 import order.view.OutputView;
 
@@ -17,54 +19,30 @@ public class Store {
     }
 
     public void run() {
-        List<Order> orders = getOrders();
-        int service = countMainMenu(orders);
-        int totalPrice = getTotalPrice(orders);
-        int deliveryPrice = getDeliveryPrice(totalPrice);
+        Orders orders = getOrders();
+        int service = orders.countMainMenu();
+        int totalPrice = orders.getTotalPrice();
+        int deliveryPrice = getDeliveryFee(totalPrice);
 
         printBills(orders, deliveryPrice, service, totalPrice);
     }
 
-    private List<Order> getOrders() {
+    private Orders getOrders() {
+        String input = inputView.readInput();
+
         OrderMaker orderMaker = new OrderMaker();
-        List<Order> orders;
-        while (true) {
-            try {
-                String input = inputView.readInput();
-                orders = orderMaker.toOrders(input);
-                break;
-            } catch (Exception e) {
-                System.out.println("[ERROR]: " + e.getMessage());
-            }
-        }
+        List<Order> orders = orderMaker.toOrders(input);
 
-        return orders;
+        return new Orders(orders);
     }
 
-    private int countMainMenu(List<Order> orders) {
-        return (int) orders.stream()
-                .filter(Order::isMain)
-                .mapToLong(Order::getQuantity)
-                .sum();
+    private int getDeliveryFee(int totalPrice) {
+        DeliveryFeeCalculator deliveryFeeCalculator = new DeliveryFeeCalculator();
+
+        return deliveryFeeCalculator.calculateDeliveryFee(totalPrice);
     }
 
-    private int getTotalPrice(List<Order> orders) {
-        return orders.stream()
-                .mapToInt(Order::getPrice)
-                .sum();
-    }
-
-    private int getDeliveryPrice(int totalPrice) {
-        if (totalPrice < 50_000) {
-            return 2_000;
-        }
-        if (totalPrice < 100_000) {
-            return 1_000;
-        }
-        return 0;
-    }
-
-    private void printBills(List<Order> orders, int deliveryPrice, int service, int totalPrice) {
+    private void printBills(Orders orders, int deliveryPrice, int service, int totalPrice) {
         outputView.printOrderList(orders, totalPrice, deliveryPrice);
         outputView.printService(service);
         outputView.printTotalPrice(totalPrice + deliveryPrice);

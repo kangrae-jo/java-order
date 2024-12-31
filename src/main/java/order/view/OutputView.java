@@ -1,13 +1,13 @@
 package order.view;
 
-import java.util.List;
 import order.model.Order;
+import order.model.Orders;
 
 public class OutputView {
 
-    public void printOrderList(List<Order> orders, int totalPrice, int deliveryPrice) {
+    public void printOrderList(Orders orders, int totalPrice, int deliveryPrice) {
         System.out.println("[주문 내역]");
-        for (Order order : orders) {
+        for (Order order : orders.getOrders()) {
             System.out.println(order.toString());
         }
         System.out.printf("총 주문 금액: %,d원\n", totalPrice);
