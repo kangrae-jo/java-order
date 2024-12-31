@@ -1,17 +1,17 @@
 package order.view;
 
-import java.util.List;
 import order.model.Order;
+import order.model.Orders;
 
 public class OutputView {
 
-    public void printOrderList(List<Order> orders, int totalPrice, int deliveryPrice) {
+    public void printOrderList(Orders orders, long totalPrice, int deliveryFee) {
         System.out.println("[주문 내역]");
-        for (Order order : orders) {
+        for (Order order : orders.getOrders()) {
             System.out.println(order.toString());
         }
         System.out.printf("총 주문 금액: %,d원\n", totalPrice);
-        System.out.printf("배달비: %,d원\n", deliveryPrice);
+        System.out.printf("배달비: %,d원\n", deliveryFee);
         System.out.println();
     }
 
@@ -21,10 +21,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalPrice(int totalPrice) {
+    public void printTotalPrice(long totalPrice) {
         System.out.println("[최종 결제 금액]");
         System.out.printf("%,d원\n", totalPrice);
         System.out.println();
     }
-
 }

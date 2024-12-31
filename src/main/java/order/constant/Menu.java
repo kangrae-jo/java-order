@@ -45,18 +45,18 @@ public enum Menu {
                 .price;
     }
 
-    public boolean matchesName(String menuName) {
-        return this.name.equals(menuName);
-    }
-
-    public boolean isDrink() {
-        return this.menuType == MenuType.DRINK;
-    }
-
     public static boolean isDrink(String menuName) {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.matchesName(menuName))
                 .anyMatch(Menu::isDrink);
+    }
+
+    private boolean matchesName(String menuName) {
+        return this.name.equals(menuName);
+    }
+
+    private boolean isDrink() {
+        return this.menuType == MenuType.DRINK;
     }
 
     public static Menu getMenuByName(String name) {
@@ -69,5 +69,4 @@ public enum Menu {
     public boolean isMain() {
         return this.menuType == MenuType.MAIN;
     }
-
 }

@@ -1,10 +1,10 @@
 package order.model;
 
 import java.util.List;
-import order.constant.Menu;
 
 public class Orders {
 
+    private final static int MIN_ORDER_AMOUNT = 30_000;
     private final List<Order> orders;
 
     public Orders(List<Order> orders) {
@@ -19,9 +19,9 @@ public class Orders {
                 .sum();
     }
 
-    public int getTotalPrice() {
+    public long getTotalPrice() {
         return orders.stream()
-                .mapToInt(Order::getPrice)
+                .mapToLong(Order::getPrice)
                 .sum();
     }
 
@@ -47,7 +47,7 @@ public class Orders {
     }
 
     private boolean isExistMenu(Order order) {
-        return Menu.isMenuName(order.getName());
+        return order.isExistMenu();
     }
 
     private boolean isLessThanTen(Order order) {
@@ -55,10 +55,7 @@ public class Orders {
     }
 
     private boolean isValidAmount() {
-        int totalAmount = orders.stream()
-                .mapToInt(order -> Menu.getPriceByName(order.getName()) * order.getQuantity())
-                .sum();
-        return totalAmount >= 30_000;
+        return getTotalPrice() >= MIN_ORDER_AMOUNT;
     }
 
     private boolean isOnlyDrink() {
